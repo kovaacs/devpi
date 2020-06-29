@@ -8,6 +8,8 @@ import subprocess
 import textwrap
 from base64 import b64encode
 from contextlib import closing
+
+import tempfile
 from devpi import hookspecs
 from devpi_common.types import lazydecorator, cached_property
 from devpi_common.url import URL
@@ -215,7 +217,7 @@ class Hub:
         try:
             return self.__workdir
         except AttributeError:
-            self.__workdir = py.path.local.make_numbered_dir(prefix="devpi")
+            self.__workdir = tempfile.TemporaryDirectory()
             self.info("using workdir", self.__workdir)
             return self.__workdir
 
